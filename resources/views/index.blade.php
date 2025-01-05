@@ -11,7 +11,7 @@
                             <p class="card-text product-price"><span>${{ $product->price }}</span></p>
                             </div>
                             <div class="d-flex justify-content-end">
-                                <a href="javascript:void(0)" class="btn btn-sm btn-primary p-2" id="addBtn">Add to cart</a>
+                                <a href="javascript:void(0)" class="btn btn-sm btn-primary p-2" onclick="addToCart({{ $product->id }})" id="addBtn">Add to cart</a>
                             </div>
                         </div>
                     </div>
