@@ -17,7 +17,11 @@ class DiscountRuleFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'condition' => fake()->randomElement(['GREATER THAN', 'LESS THAN', 'GREATER THAN OR EQUAL', 'LESS THAN OR EQUAL','EQUAL']),
+            'dependent' => fake()->randomElement(['ITEM', 'PRICE']),
+            'value' => fake()->numberBetween(1, 1000),
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 }

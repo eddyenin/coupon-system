@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Discounts;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,12 @@ class CouponFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'discount_id' => Discounts::factory(),
+            'coupon_code' => strtoupper(fake()->bothify('??##??##')),
+            'max' => fake()->numberBetween(1, 2),
+            'expires_at' => fake()->dateTimeBetween('now', '+3 days'),
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 }

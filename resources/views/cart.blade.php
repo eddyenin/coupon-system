@@ -1,6 +1,6 @@
 <x-layout>
     <section>
-        <div class="container ">
+        <div class="container">
             <div class="row" >
                 <h2 class="mt-2">Cart</h2>
                 <div class="col-md-12 mt-2 " >

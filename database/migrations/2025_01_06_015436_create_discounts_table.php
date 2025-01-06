@@ -11,14 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('coupons', function (Blueprint $table) {
+        Schema::create('discounts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('discount_id')->constrained()->onDelete('cascade');
-            $table->string('coupon_code');
-            $table->integer('max');
-            $table->date('expires_at');
+            $table->string('name');
+            $table->enum('discount_types',['MIXED','PERCENT','FIXED']);
+            $table->integer('discount_value');
+            $table->date('start_date');
+            $table->date('end_date');
             $table->timestamps();
         });
+
     }
 
     /**
