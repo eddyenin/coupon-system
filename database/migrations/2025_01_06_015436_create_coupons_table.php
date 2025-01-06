@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('coupons', function (Blueprint $table) {
             $table->id();
+            $table->string('coupon_code');
+            $table->integer('max');
+            $table->date('expires_at');
             $table->timestamps();
         });
     }

@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('discount_rules', function (Blueprint $table) {
             $table->id();
+            $table->enum('condition',['GREATER THAN','LESS THAN','GREATER THAN OR EQUAL','LESS THAN OR EQUAL','EQUAL']);
+            $table->enum('dependent',['ITEM','PRICE']);
+            $table->integer('value');
             $table->timestamps();
         });
     }
