@@ -61,14 +61,14 @@ function displayCartDetails(productIds,cartDetails){
 
                 let row = `
                 <div class="d-flex justify-content-between">
-                    <div id="pName">
+                    <div id="pName" class="col-3">
                         <span>${product.name}</span>
                     </div>
-                    <div>
-                        <span id="pPrice">$${Math.round(product.price)}</span>
+                    <div class="col-3">
+                        <span id="${product.id}-price">${Math.round(product.price)}</span>
                     </div>
-                    <div class="mt-2 mb-2 quantity-controls">
-                         <span class="btn btn-sm btn-primary">-</span>
+                    <div class="mt-2 mb-2 quantity-controls col-3 ">
+                         <span class="btn btn-sm btn-primary" onclick="productDecrease(${product.id})">-</span>
                          <span class="p-1 quantity-display" id="${product.id}-quantity">${quantity}</span>
                          <span class="btn btn-sm btn-primary" onclick="productIncrease(${product.id})">+</span>
                      </div>
@@ -82,10 +82,10 @@ function displayCartDetails(productIds,cartDetails){
             let wor = `
             <div class="d-flex justify-content-between">
                 <div>
-                    <p><strong>Total</strong></p>
+                    <p><strong>Total($)</strong></p>
                 </div>
                 <div>
-                    <span class="fw-bold" id="subTotal">$${totalAmount}</span>
+                    <span class="fw-bold" id="totalAmount">${totalAmount}</span>
                 </div>
             </div>
 
@@ -116,20 +116,45 @@ function getCoupon(){
     })
 }
 
+//Increase the quantity and update product total and display
 function productIncrease(pId){
-
     quantityUpdate(pId,1)
     let quantityEl = $(`#${pId}-quantity`);
+    let quantity = parseInt(quantityEl.text());
+    let productPriceEl = $(`#${pId}-price`);
+    let productPrice = parseInt(productPriceEl.text());
+    let totalAmountEl = $("#totalAmount");
+    let totalAmount = parseInt(productPriceEl.text());
+   // let quantityEl = $(`#${pId}-quantity`);
+
     let pTotalEl = $(`#${pId}-total`);
 
-    let quantity = parseInt(quantityEl.text());
+   // let quantity = parseInt(quantityEl.text());
     let pTotal = parseInt(pTotalEl.text());
-   let rt = quantityEl.text(quantity + 1);
+
+
+    let rt = quantityEl.text(quantity + 1);
 
 }
 
+//Decrease the quantity and update product total and display
+function productDecrease(pId){
+    let quantityEl = $(`#${pId}-quantity`);
+    let quantity = parseInt(quantityEl.text());
+    let productPriceEl = $(`#${pId}-price`);
+    let productPrice = parseInt(productPriceEl.text());
+    let totalAmountEl = $("#totalAmount");
+    let totalAmount = parseInt(productPriceEl.text());
+
+    if(quantity > 1){
+        quantityUpdate(pId,-1);
+        quantityEl.text(quantity - 1);
+        totalAmountEl.text(productPrice * quantity);
+    }
+}
 
 
+// Update the quanity of the product in the local storage
 function quantityUpdate(pId,quan){
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     let cartIndex = cart.findIndex(function(cartPrI){
@@ -138,7 +163,6 @@ function quantityUpdate(pId,quan){
 
     if(cartIndex !== -1){
         cart[cartIndex].quantity += quan;
-        // console.log(quantity)
         localStorage.setItem('cart',JSON.stringify(cart));
     }
 }
