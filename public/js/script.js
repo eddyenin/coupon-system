@@ -20,7 +20,7 @@ function addToCart(productId){
     console.log(localStorage.getItem('cart'))
 }
 
-//Show product details in the cart page
+//Get product ids from local storage and store in an array,use it to send with AJAX to get product details
 function getProductId(){
     const cartDetails = JSON.parse(localStorage.getItem('cart')) || [];
 
@@ -65,7 +65,7 @@ function displayCartDetails(productIds,cartDetails){
                         <span class="btn btn-sm btn-primary">-</span><span class="p-1">${quantity}</span><span class="btn btn-sm btn-primary">+</span>
                     </div>
                     <div id="ptotal">
-                        <span>${productTotal}</span>
+                        <span>$${productTotal}</span>
                     </div>
                 </div>
                 `;
@@ -85,5 +85,25 @@ function displayCartDetails(productIds,cartDetails){
             totalCard.append(wor);
 
         }
+    })
+}
+
+function getCoupon(){
+    let couponCode = $("#couponCode").val();
+    if (!couponCode){
+        alert('Please enter a coupon code');
+    }
+
+    $.ajax({
+        url:'/check',
+        type:'GET',
+        data:{
+            code:couponCode,
+            _token:$('meta[name="csrf-token"]').attr('content'),
+        },
+        success:function(response){
+            console.log(response);
+        }
+
     })
 }
