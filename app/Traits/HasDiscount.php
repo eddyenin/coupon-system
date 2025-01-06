@@ -19,7 +19,7 @@ trait HasDiscount
         // Apply and validate discount rules
         $allRulesValid = true;
 
-        foreach ($discount->rules as $rule) {
+        foreach ($discount->discountRule as $rule) {
             $dependentValue = $rule->dependent == 'item' ? $itemCount : $totalAmount;
             $isRuleValid = $this->applyRule($rule, $dependentValue);
 
@@ -36,9 +36,9 @@ trait HasDiscount
         // Apply discount based on discount type
         $amountOff = 0;
 
-        if ($discount->discount_types == 'percentage') {
+        if ($discount->discount_types == 'PERCENT') {
             $amountOff = $totalAmount * ($discount->discount_value / 100);
-        } else if ($discount->discount_types == 'fixed') {
+        } else if ($discount->discount_types == 'FIXED') {
             $amountOff = $discount->discount_value;
         } else {
             // Mixed: Set the amount off to the greater discount value
@@ -68,10 +68,10 @@ trait HasDiscount
 
     private function applyRule(DiscountRule $rule, float|int $dependentValue) {
         $isRuleValid = match ($rule->condition) {
-            'greater than' => $dependentValue > $rule->value,
-            'greater than or equal' => $dependentValue >= $rule->value,
-            'less than' => $dependentValue < $rule->value,
-            'less than or equal' => $dependentValue <= $rule->value,
+            'GREATER THAN' => $dependentValue > $rule->value,
+            'GREATER THAN OR EQUAL' => $dependentValue >= $rule->value,
+            'LESS THAN' => $dependentValue < $rule->value,
+            'LESS THAN OR EQUAL' => $dependentValue <= $rule->value,
 
             // Equals
             default => $dependentValue == $rule->value,

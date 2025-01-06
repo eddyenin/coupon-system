@@ -26,13 +26,10 @@ function getProductId(){
     let cartDetails = JSON.parse(localStorage.getItem('cart')) || [];
 
     let productIds = [];
-    if (cartDetails == []){
-        console.log('no products')
-    }else{
-        cartDetails.forEach(function(productId){
-            productIds.push(productId.id);
-        })
-    }
+
+    cartDetails.forEach(function(productId){
+        productIds.push(productId.id);
+    })
 
     displayCartDetails(productIds, cartDetails); //Get product details from Laravel with AJAX and display
     //console.log(productIds);
@@ -56,7 +53,7 @@ function displayCartDetails(productIds,cartDetails){
                     return prId.id === product.id
                 })
                 let quantity = cartPrId.quantity;
-                let productTotal = Math.round(product.price) * quantity
+                let productTotal = product.price * quantity
                 totalAmount += productTotal;
 
                 let row = `
@@ -65,7 +62,7 @@ function displayCartDetails(productIds,cartDetails){
                         <span>${product.name}</span>
                     </div>
                     <div class="col-3">
-                        <span id="${product.id}-price">${Math.round(product.price)}</span>
+                        <span id="${product.id}-price">${product.price}</span>
                     </div>
                     <div class="mt-2 mb-2 quantity-controls col-3 ">
                          <span class="btn btn-sm btn-primary" onclick="productDecrease(${product.id})">-</span>
@@ -97,6 +94,7 @@ function displayCartDetails(productIds,cartDetails){
 }
 
 function getCoupon(){
+    let products = JSON.parse(localStorage.getItem('cart')) || [];
     let couponCode = $("#couponCode").val();
     if (!couponCode){
         alert('Please enter a coupon code');
@@ -104,13 +102,19 @@ function getCoupon(){
 
     $.ajax({
         url:'/check',
-        type:'GET',
+        type:'POST',
         data:{
-            code:couponCode,
-            _token:$('meta[name="csrf-token"]').attr('content'),
+            couponCode:couponCode,
+            products:products,
+        },
+        headers:{
+            'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content'),
         },
         success:function(response){
             console.log(response)
+        },
+        error: function(xhr) {
+            console.log('Error:', xhr.responseJSON);
         }
 
     })

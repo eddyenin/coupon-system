@@ -19,6 +19,6 @@ class Discounts extends Model
 
     public function discountRule():BelongsToMany
     {
-        return $this->belongsToMany(Discounts::class);
+        return $this->belongsToMany(Discounts::class,'discount_rule_discount','discount_id','discount_rule_id');
     }
 }
