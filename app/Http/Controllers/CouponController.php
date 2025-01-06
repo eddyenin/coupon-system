@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class CouponController extends Controller
 {
-    public function check(Request $request){
+    public function checkCoupon(Request $request){
         $couponCode = $request->input('code');
 
        // $coupon = Coupon::where()
