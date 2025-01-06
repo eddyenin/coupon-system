@@ -10,8 +10,13 @@
                             <h5 class="card-title product-name">{{ $product->name }}</h5>
                             <p class="card-text product-price"><span>${{ $product->price }}</span></p>
                             </div>
-                            <div class="d-flex justify-content-end">
-                                <a href="javascript:void(0)" class="btn btn-sm btn-primary p-2" onclick="addToCart({{ $product->id }})" id="addBtn">Add to cart</a>
+                            <div class="d-flex justify-content-end productBtn">
+                                <a href="javascript:void(0)" class="btn btn-sm btn-primary p-2 adBtn" onclick="addToCart({{ $product->id }})" id="addBtn">Add to cart</a>
+                                <div class="quantity-controls" style="display: none">
+                                    <button class="decrease btn btn-sm btn-danger">-</button>
+                                    <span class="quantity">1</span>
+                                    <button class="increase btn btn-sm btn-primary">+</button>
+                                </div>
                             </div>
                         </div>
                     </div>
