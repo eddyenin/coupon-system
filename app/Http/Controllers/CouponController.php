@@ -8,8 +8,6 @@ use App\Models\Discounts;
 use App\Models\Product;
 use App\Traits\HasDiscount;
 use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 
 use function Pest\Laravel\json;
 
@@ -23,10 +21,9 @@ class CouponController extends Controller
 
         try{
             $coupon = Coupon::with('discount')->where('coupon_code',$couponCode)->first();
-
             $currentDate = now();
 
-            if($coupon->max > 0 && $currentDate->isAfter($coupon->expires_at)){
+            if($coupon->max > 0 && $currentDate->isBefore($coupon->expires_at)){
                 $itemCount = count($products);
                 $totalAmount = 0;
                 foreach($products as $productData){
@@ -34,7 +31,6 @@ class CouponController extends Controller
                     $productTotal = $product->price * $productData['quantity'];
                     $totalAmount += $productTotal;
                 }
-                dd($totalAmount);
                 $discountValue = $this->applyDiscount($coupon->discount,$totalAmount,$itemCount);
                 return response()->json(['discountValue'=>$discountValue]);
             }else{

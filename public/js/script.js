@@ -20,6 +20,9 @@ function addToCart(productId){
     localStorage.setItem('cart',JSON.stringify(cart));
     console.log(localStorage.getItem('cart'))
 }
+function addQuantity(){
+
+}
 
 //Get product ids from local storage and store in an array,use it to send with AJAX to get product details
 function getProductId(){
@@ -70,32 +73,38 @@ function displayCartDetails(productIds,cartDetails){
                          <span class="btn btn-sm btn-primary" onclick="productIncrease(${product.id})">+</span>
                      </div>
                     <div id="ptotal">
-                        <span id="${product.id}-total">${productTotal}</span>
+                        <span id="${product.id}-total">${productTotal.toFixed(2)}</span>
                     </div>
                 </div>
                 `;
                 productCard.prepend(row);
             })
+
+            localStorage.setItem('total',totalAmount);
+
             let wor = `
             <div class="d-flex justify-content-between">
                 <div>
                     <p><strong>Total($)</strong></p>
                 </div>
                 <div>
-                    <span class="fw-bold" id="totalAmount">${totalAmount}</span>
+                    <span class="fw-bold" id="totalAmount">${totalAmount.toFixed(2)}</span>
                 </div>
             </div>
 
             `;
             totalCard.append(wor);
 
+
         }
     })
 }
 
-function getCoupon(){
+function getDiscount(){
     let products = JSON.parse(localStorage.getItem('cart')) || [];
     let couponCode = $("#couponCode").val();
+    let finalAmountEl = $("#totalAmount");
+   // console.log(finalAmountEl);
     if (!couponCode){
         alert('Please enter a coupon code');
     }
@@ -111,7 +120,12 @@ function getCoupon(){
             'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content'),
         },
         success:function(response){
-            console.log(response)
+
+           let finalAmount = parseFloat(finalAmountEl.text(response.discountValue.toFixed(2)));
+           localStorage.setItem('total',finalAmount);
+           // console.log(finalAmountEl);
+
+            console.log(response.discountValue)
         },
         error: function(xhr) {
             console.log('Error:', xhr.responseJSON);
@@ -125,19 +139,20 @@ function productIncrease(pId){
     quantityUpdate(pId,1)
     let quantityEl = $(`#${pId}-quantity`);
     let quantity = parseInt(quantityEl.text());
-    let productPriceEl = $(`#${pId}-price`);
-    let productPrice = parseInt(productPriceEl.text());
-    let totalAmountEl = $("#totalAmount");
-    let totalAmount = parseInt(productPriceEl.text());
-   // let quantityEl = $(`#${pId}-quantity`);
+    quantityEl.text(quantity + 1)
 
-    let pTotalEl = $(`#${pId}-total`);
+    let productPrice = parseFloat($(`#${pId}-price`).text());
+    let productTotalEl = $(`#${pId}-total`);
 
-   // let quantity = parseInt(quantityEl.text());
-    let pTotal = parseInt(pTotalEl.text());
+    let productTotal = productTotalEl.text(((quantity + 1) * productPrice).toFixed(2)).text()
 
+    // let totalAmountEl = $("#totalAmount");
+    // let totalA = parseFloat(totalAmountEl.text());
 
-    let rt = quantityEl.text(quantity + 1);
+    // totalAmountEl.text(totalA)
+
+    //displayCartDetails();
+
 
 }
 
@@ -145,15 +160,13 @@ function productIncrease(pId){
 function productDecrease(pId){
     let quantityEl = $(`#${pId}-quantity`);
     let quantity = parseInt(quantityEl.text());
-    let productPriceEl = $(`#${pId}-price`);
-    let productPrice = parseInt(productPriceEl.text());
-    let totalAmountEl = $("#totalAmount");
-    let totalAmount = parseInt(productPriceEl.text());
 
     if(quantity > 1){
         quantityUpdate(pId,-1);
         quantityEl.text(quantity - 1);
-        totalAmountEl.text(productPrice * quantity);
+        let productPrice = parseFloat($(`#${pId}-price`).text());
+        let productTotalEl = $(`#${pId}-total`);
+        productTotalEl.text(((quantity - 1) * productPrice).toFixed(2))
     }
 }
 

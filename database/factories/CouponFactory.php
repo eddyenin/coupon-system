@@ -20,7 +20,7 @@ class CouponFactory extends Factory
         return [
             'discount_id' => Discounts::factory(),
             'coupon_code' => strtoupper(fake()->bothify('??##??##')),
-            'max' => fake()->numberBetween(1, 2),
+            'max' => fake()->numberBetween(0,1),
             'expires_at' => fake()->dateTimeBetween('now', '+3 days'),
             'created_at' => now(),
             'updated_at' => now(),

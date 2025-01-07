@@ -13,7 +13,7 @@
                         <hr>
                         <div class="d-flex justify-content-between">
                             <div>
-                                <input type="text" placeholder="Enter Coupon Code" class="p-2" id="couponCode"> <button class="btn btn-sm btn-primary" onclick="getCoupon()" id="couponBtn">Apply code</button>
+                                <input type="text" placeholder="Enter Coupon Code" class="p-2" id="couponCode"> <button class="btn btn-sm btn-primary" onclick="getDiscount()" id="couponBtn">Apply code</button>
                             </div>
                             <div>
                                 <a href="javascript:void(0)" class="btn btn-sm btn-primary ">Confirm Order</a>

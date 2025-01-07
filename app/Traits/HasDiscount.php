@@ -65,7 +65,6 @@ trait HasDiscount
         return ['valid' => true];
     }
 
-
     private function applyRule(DiscountRule $rule, float|int $dependentValue) {
         $isRuleValid = match ($rule->condition) {
             'GREATER THAN' => $dependentValue > $rule->value,
