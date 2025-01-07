@@ -10,6 +10,14 @@
                         <div class="card-body" id="cart-row">
 
                         </div>
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <p><strong>Total($)</strong></p>
+                            </div>
+                            <div>
+                                <span class="fw-bold" id="totalAmount">${totalAmount.toFixed(2)}</span>
+                            </div>
+                        </div>
                         <hr>
                         <div class="d-flex justify-content-between">
                             <div>
