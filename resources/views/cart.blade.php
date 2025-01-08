@@ -15,7 +15,7 @@
                                 <p><strong>Total($)</strong></p>
                             </div>
                             <div>
-                                <span class="fw-bold" id="totalAmount">${totalAmount.toFixed(2)}</span>
+                                <span class="fw-bold" id="totalAmount"></span>
                             </div>
                         </div>
                         <hr>

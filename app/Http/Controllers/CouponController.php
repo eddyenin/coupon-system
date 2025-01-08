@@ -12,7 +12,7 @@ class CouponController extends Controller
 {
     use HasDiscount;
 
-    public function checkCoupon(CouponRequest $request){
+    public function getDiscount(CouponRequest $request){
             $couponCode = $request->couponCode;
             $products = $request->products;
 

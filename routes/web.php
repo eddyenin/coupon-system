@@ -12,5 +12,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/',[ProductController::class,'index']);
 Route::get('/cart',[CartController::class,'index']);
 Route::get('/show',[CartController::class,'show']);
-Route::post('/check',[CouponController::class,'checkCoupon']);
+Route::post('/discount',[CouponController::class,'getDiscount']);
 
